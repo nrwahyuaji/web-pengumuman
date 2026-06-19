@@ -4,6 +4,8 @@
 
 Aplikasi ini dibuat secara **statis (tanpa database backend kompleks)**, sehingga sangat cepat, ringan, dan sangat mudah untuk dimodifikasi maupun di-hosting di mana saja.
 
+![Tampilan Aplikasi Web Pengumuman Ranking](./assets/tampilan.png)
+
 ---
 
 ## 🛠️ Teknologi yang Digunakan
