@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="id">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -13,6 +14,7 @@
     <!-- Custom Styles -->
     <link rel="stylesheet" href="style.css">
 </head>
+
 <body>
     <div id="app">
         <div class="app-background"></div>
@@ -20,7 +22,7 @@
             <header>
                 <div class="logo">
                     <div class="logo-icon"><i class="fa-solid fa-graduation-cap"></i></div>
-                    <h1>Portal Pengumuman</h1>
+                    <h1>Web Pengumuman Ranking</h1>
                 </div>
                 <div class="header-actions">
                     <button @click="toggleTheme" class="theme-toggle" aria-label="Toggle Dark Mode">
@@ -37,18 +39,12 @@
                         <i class="fa-solid fa-database"></i> {{ students.length }} data siswa siap dicari
                     </div>
                 </div>
-                
+
                 <form @submit.prevent="handleSearch" class="search-form">
                     <div class="input-group" :class="{'focused': isFocused, 'has-error': error}">
                         <div class="input-icon"><i class="fa-solid fa-magnifying-glass"></i></div>
-                        <input 
-                            type="text" 
-                            v-model="searchQuery" 
-                            placeholder="Contoh: 0094099394 atau 25.12731" 
-                            @focus="isFocused = true"
-                            @blur="isFocused = false"
-                            :disabled="isLoading"
-                        >
+                        <input type="text" v-model="searchQuery" placeholder="Contoh: 0094099394 atau 25.12731"
+                            @focus="isFocused = true" @blur="isFocused = false" :disabled="isLoading">
                         <button type="submit" class="btn-primary" :disabled="isLoading || !searchQuery.trim()">
                             <span v-if="!isLoading">Cari</span>
                             <span v-else class="loader"></span>
@@ -69,7 +65,7 @@
                                 <p>NISN: {{ result.nisn }} | NIS: {{ result.nis }}</p>
                             </div>
                         </div>
-                        
+
                         <div class="stats-grid">
                             <div class="stat-card">
                                 <div class="stat-icon total-icon"><i class="fa-solid fa-star"></i></div>
@@ -104,11 +100,12 @@
                     </div>
                 </Transition>
             </main>
-            
+
             <footer>
-                <p>&copy; 2026 Portal Pengumuman Sekolah. All rights reserved.</p>
+                <p>&copy; 2026 Web Pengumuman Ranking. All rights reserved.</p>
                 <p class="creator-footer" style="margin-top: 8px; font-size: 0.85rem; color: var(--text-secondary);">
-                    dibuat oleh <a href="https://github.com/nrwahyuaji" target="_blank" rel="noopener noreferrer" style="color: var(--primary-color); text-decoration: none; font-weight: 500;">@nrw.aji</a>
+                    dibuat oleh <a href="https://github.com/nrwahyuaji" target="_blank" rel="noopener noreferrer"
+                        style="color: var(--primary-color); text-decoration: none; font-weight: 500;">@nrw.aji</a>
                 </p>
             </footer>
         </div>
@@ -119,4 +116,5 @@
     <!-- App Logic -->
     <script src="app.js"></script>
 </body>
+
 </html>
