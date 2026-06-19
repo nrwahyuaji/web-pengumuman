@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sistem Pengumuman Siswa</title>
+    <!-- Google Fonts: Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- FontAwesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Custom Styles -->
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div id="app">
+        <div class="app-background"></div>
+        <div class="container">
+            <header>
+                <div class="logo">
+                    <div class="logo-icon"><i class="fa-solid fa-graduation-cap"></i></div>
+                    <h1>Portal Pengumuman</h1>
+                </div>
+                <div class="header-actions">
+                    <button @click="toggleTheme" class="theme-toggle" aria-label="Toggle Dark Mode">
+                        <i :class="isDarkMode ? 'fa-solid fa-sun' : 'fa-solid fa-moon'"></i>
+                    </button>
+                </div>
+            </header>
+
+            <main class="card search-card">
+                <div class="card-header">
+                    <h2>Cek Peringkat Siswa</h2>
+                    <p>Masukkan NISN atau NIS Anda untuk melihat hasil nilai dan peringkat.</p>
+                    <div class="data-status" v-if="students.length > 0">
+                        <i class="fa-solid fa-database"></i> {{ students.length }} data siswa siap dicari
+                    </div>
+                </div>
+                
+                <form @submit.prevent="handleSearch" class="search-form">
+                    <div class="input-group" :class="{'focused': isFocused, 'has-error': error}">
+                        <div class="input-icon"><i class="fa-solid fa-magnifying-glass"></i></div>
+                        <input 
+                            type="text" 
+                            v-model="searchQuery" 
+                            placeholder="Contoh: 0094099394 atau 25.12731" 
+                            @focus="isFocused = true"
+                            @blur="isFocused = false"
+                            :disabled="isLoading"
+                        >
+                        <button type="submit" class="btn-primary" :disabled="isLoading || !searchQuery.trim()">
+                            <span v-if="!isLoading">Cari</span>
+                            <span v-else class="loader"></span>
+                        </button>
+                    </div>
+                    <div class="error-msg" v-if="error">{{ error }}</div>
+                </form>
+
+                <Transition name="fade-slide">
+                    <div v-if="hasSearched && !isLoading && result" class="result-section">
+                        <div class="result-badge">
+                            <i class="fa-solid fa-circle-check"></i> Data Ditemukan
+                        </div>
+                        <div class="student-info">
+                            <div class="avatar">{{ getInitials(result.nama) }}</div>
+                            <div class="details">
+                                <h3>{{ result.nama }}</h3>
+                                <p>NISN: {{ result.nisn }} | NIS: {{ result.nis }}</p>
+                            </div>
+                        </div>
+                        
+                        <div class="stats-grid">
+                            <div class="stat-card">
+                                <div class="stat-icon total-icon"><i class="fa-solid fa-star"></i></div>
+                                <div class="stat-data">
+                                    <span class="stat-label">Total Nilai</span>
+                                    <span class="stat-value">{{ result.totalNilai }}</span>
+                                </div>
+                            </div>
+                            <div class="stat-card">
+                                <div class="stat-icon avg-icon"><i class="fa-solid fa-chart-line"></i></div>
+                                <div class="stat-data">
+                                    <span class="stat-label">Rata-rata</span>
+                                    <span class="stat-value">{{ formatDecimal(result.rataRata) }}</span>
+                                </div>
+                            </div>
+                            <div class="stat-card highlight">
+                                <div class="stat-icon rank-icon"><i class="fa-solid fa-trophy"></i></div>
+                                <div class="stat-data">
+                                    <span class="stat-label">Peringkat</span>
+                                    <span class="stat-value rank-value">#{{ result.peringkat }}</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </Transition>
+
+                <Transition name="fade-slide">
+                    <div v-if="hasSearched && !isLoading && !result" class="not-found-section">
+                        <div class="empty-icon"><i class="fa-regular fa-folder-open"></i></div>
+                        <h3>Siswa Tidak Ditemukan</h3>
+                        <p>Pastikan NISN atau NIS yang Anda masukkan sudah benar.</p>
+                    </div>
+                </Transition>
+            </main>
+            
+            <footer>
+                <p>&copy; 2026 Portal Pengumuman Sekolah. All rights reserved.</p>
+                <p class="creator-footer" style="margin-top: 8px; font-size: 0.85rem; color: var(--text-secondary);">
+                    dibuat oleh <a href="https://github.com/nrwahyuaji" target="_blank" rel="noopener noreferrer" style="color: var(--primary-color); text-decoration: none; font-weight: 500;">@nrw.aji</a>
+                </p>
+            </footer>
+        </div>
+    </div>
+
+    <!-- Vue 3 CDN -->
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <!-- App Logic -->
+    <script src="app.js"></script>
+</body>
+</html>
